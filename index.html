@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biolink UI with External Settings</title>
+
+  <!-- Import Google Font "Poppins" -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Styling Utama */
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      color: #333;
+      position: relative;
+      background: linear-gradient(to bottom, #000, #333);
+    }
+
+    /* Efek Hujan */
+    .raindrop {
+      position: absolute;
+      width: 2px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.5);
+      animation: fall 1s linear infinite;
+      z-index: -1;
+      top: -100px;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px);
+      }
+      100% {
+        transform: translateY(100vh);
+      }
+    }
+
+    /* Container Biolink dengan Blur Effect */
+    .biolink {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Styling Foto Profil */
+    .profile-picture {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      border: 5px solid rgba(0, 123, 255, 0.6);
+      padding: 5px;
+      background-color: rgba(0, 123, 255, 0.1);
+    }
+
+    .biolink h1 {
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .biolink p {
+      margin-bottom: 15px;
+      font-size: 18px;
+      color: #ddd;
+      font-weight: 400;
+    }
+
+    /* Tombol Link dengan Blur Effect */
+    .biolink a {
+      display: block;
+      padding: 10px 20px;
+      margin: 8px 0;
+      text-decoration: none;
+      color: #333;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background-color 0.3s, transform 0.3s;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .biolink a:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+    }
+
+    /* Responsivitas */
+    @media (max-width: 400px) {
+      .biolink h1 {
+        font-size: 20px;
+      }
+      .biolink p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Sound -->
+  <audio autoplay loop>
+    <source src="/media/musik1.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="biolink" id="biolinkContainer">
+    <!-- Konten akan ditambahkan melalui JavaScript -->
+  </div>
+
+  <!-- Import External Settings -->
+  <script src="/settings/xwby.js"></script>
+  <script>
+    // Mengambil data dari profileSettings dan menampilkannya di halaman
+    const biolinkContainer = document.getElementById("biolinkContainer");
+
+    // Tambahkan elemen HTML berdasarkan konfigurasi
+    const profileHTML = `
+      <img src="${profileSettings.profilePicture}" alt="Profile Picture" class="profile-picture">
+      <h1>${profileSettings.name}</h1>
+      <p>${profileSettings.description}</p>
+      ${profileSettings.links.map(link => `<a href="${link.url}" target="_blank">${link.label}</a>`).join('')}
+    `;
+
+    biolinkContainer.innerHTML = profileHTML;
+
+    // Efek Hujan
+    function createRaindrop() {
+      const raindrop = document.createElement('div');
+      raindrop.classList.add('raindrop');
+      raindrop.style.left = `${Math.random() * window.innerWidth}px`;
+      raindrop.style.animationDuration = `${0.5 + Math.random()}s`;
+      document.body.appendChild(raindrop);
+
+      setTimeout(() => {
+        raindrop.remove();
+      }, 1000);
+    }
+
+    setInterval(createRaindrop, 50);
+  </script>
+</body>
+</html>
